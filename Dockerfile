@@ -1,4 +1,4 @@
-FROM php:7.1-fpm-alpine
+FROM php:fpm-alpine
 
 LABEL maintainer "Stefano Azzolini <stefano.azzolini@caffeina.com>"
 
