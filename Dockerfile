@@ -14,18 +14,17 @@ RUN apt-get update && apt-get -y install wget bsdtar libaio1 && \
  rm -rf /var/lib/apt/lists/* && \
  php -v
 
-RUN wget http://php.net/distributions/php-7.1.6.tar.gz && \
-    mkdir php_oci && \
-    mv php-7.1.6.tar.gz ./php_oci
-WORKDIR php_oci
-RUN tar xfvz php-7.1.6.tar.gz
-WORKDIR php-7.1.6/ext/pdo_oci
-RUN phpize && \
-    ./configure --with-pdo-oci=instantclient,/usr/local/instantclient,12.1 && \
-    make && \
-    make install && \
-    echo extension=pdo_oci.so > /usr/local/etc/php/conf.d/pdo_oci.ini && \
-    php -v
+RUN	mkdir -p /usr/src/php_oci && \
+  cd /usr/src/php_oci && \
+  wget http://php.net/distributions/php-$PHP_VERSION.tar.gz && \
+  tar xfvz php-$PHP_VERSION.tar.gz && \
+  cd php-$PHP_VERSION/ext/pdo_oci && \
+  phpize && \
+  ./configure --with-pdo-oci=instantclient,/usr/local/instantclient,12.1 && \
+  make && \
+  make install && \
+  echo extension=pdo_oci.so > /usr/local/etc/php/conf.d/pdo_oci.ini && \
+  php -v
 
 VOLUME /etc/tnsnames.ora
 
